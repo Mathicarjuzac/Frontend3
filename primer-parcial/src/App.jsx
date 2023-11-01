@@ -1,34 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Card from "./components/Card"
+import Carderror from "./components/Carderror"
+import {useState} from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
+const [nombre, setNombre] = useState('')
+const [animal, setAnimal] = useState('')
+const [color, setColor] = useState('')
+
+const onChangeNombre = (e) => setNombre(e.target.value); 
+const onChangeAnimal = (e) => setAnimal(e.target.value); 
+const onChangeColor = (e) => setColor(e.target.value); 
+
+const infoPersona= {}
+
+let seMuestra = false;
+
+const handlerSubmit = (e) => {
+  e.preventDefault();
+
+  
+  infoPersona["nombre"]= {nombre}
+  infoPersona["animal"]= {animal}
+  infoPersona["color"]= {color}
+
+
+
+const validar = () => {
+
+  const trimmed = nombre.trim();
+  if (trimmed !== nombre && nombre.length > 2 ){
+    if(animal.length > 5){
+      if(color.length == 7){
+        seMuestra = true;
+      }
+    }
+  }
+}
+validar();
+
+  
+console.log(infoPersona);
+}
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    
+    <div className="App">
+
+      <h1>¡Hola! Contános sobre vos</h1>
+      <form onSubmit={handlerSubmit}>  
+      <input type="text" value={nombre} onChange={onChangeNombre}  placeholder='Ingresá tu nombre'/>
+      <input type="text" value={animal} onChange={onChangeAnimal} placeholder='Ingresá tu animal favorito'/>
+      <input type="text" value={color} onChange={onChangeColor} placeholder='Ingresá tu color favorito'/>
+      <button type='submit'>Enviar</button>
+
+      </form>
+      {seMuestra ? <Card mostrar={infoPersona}/> : <Carderror/> }
+      
+    </div>
   )
 }
 
